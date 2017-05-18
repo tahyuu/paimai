@@ -1,0 +1,10 @@
+enterPrice:(865, 403)
+addPrice:(987, 398)
+submit:(732, 594)
+getInputpasscode:(886, 498)
+readPrice:(316, 495)
+readMyPrice:(852, 354)
+offerPrice:(982, 506)
+flashPasscode:(784, 519)
+readTime:(289, 479)
+

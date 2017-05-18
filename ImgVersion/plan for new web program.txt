@@ -1,0 +1,16 @@
+Have below fuction.
+passcode4login
+passcode4offerprice[{uniqid:"aaaxxx",passcode:"123456"},{uniqid......}]
+
+1, GetPassCode4Login
+2, Login
+	post passcode4login. user info
+3, GetPassCode4OfferPrice For 2 Times 
+	save the passcode for submit 
+4, GetCurrentTime
+	a new thread to get currentTime
+5, GetLatestPrice
+	a new thread to get latestprice
+6, Run
+	if currentTime>56
+		post,Submit(currentPrice+300,passcode4offerprice,userinfo)

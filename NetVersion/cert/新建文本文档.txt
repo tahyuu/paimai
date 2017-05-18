@@ -1,0 +1,2 @@
+ openssl pkcs12 -in test.pfx -clcerts -nokeys -out cert.pem  可能需要密码：这里的密码就是上面第四步输入的密码。
+ openssl pkcs12 -in test.pfx -nocerts -out key.pem  生成key.pem

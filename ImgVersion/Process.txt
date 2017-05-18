@@ -1,0 +1,20 @@
+1, Read UserName and Password.
+2, Login. post
+5, CurrentSystemTime. get
+6, LatestLowPrice.
+7, LatestLowPriceTime
+4, DataBaseAcceptPriceRange
+
+Add Price in local
+Submit Price in local
+GetPassCode get
+ConfirmAndSubmitPrice post
+
+ESC t???
+
+EnterPrice.
+AddPrice
+GetPassCode.
+FlashPassCode
+EnterPassCode
+SubmitPrice

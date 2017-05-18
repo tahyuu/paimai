@@ -1,0 +1,56 @@
+POST /webwcf/BidCmd.svc/WebCmd HTTP/1.1
+Host: paimai.alltobid.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/json
+X-Requested-With: XMLHttpRequest
+Referer: https://paimai.alltobid.com/bid/2017031801/login.htm
+Content-Length: 229
+Connection: keep-alive
+
+{"method":"getimagecode","cmd":"%7B%22version%22%3A%221.0%22%2C%22timestamp%22%3A%221489804149517%22%2C%22requestid%22%3A%221489804149517%22%2C%22request%22%3A%7B%7D%2C%22checkcode%22%3A%2238e1a3dadd3874516ded9e850cd7a652%22%7D"}HTTP/1.1 200 OK
+Content-Length: 262
+Content-Type: application/json; charset=utf-8
+Server: Microsoft-IIS/7.5
+X-Content-Type-Options: nosniff
+Date: Sat, 18 Mar 2017 02:29:10 GMT
+
+"{\"response\":{\"responsecode\":0,\"responsemsg\":\"Success\",\"data\":\"e3b3718a-650e-4312-9167-ff123e89644b,https:\/\/paimai.alltobid.com\/imgs\/l\/de64052d-b919-491f-a28c-ea9bae661c64.png\"},\"requestid\":\"1489804149517\",\"servertime\":\"20170318102911\"}"GET /imgs/l/de64052d-b919-491f-a28c-ea9bae661c64.png HTTP/1.1
+Host: paimai.alltobid.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0
+Accept: */*
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate, br
+Referer: https://paimai.alltobid.com/bid/2017031801/login.htm
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Content-Type: image/png
+Last-Modified: Fri, 20 May 2016 02:41:18 GMT
+Accept-Ranges: bytes
+ETag: "6bd251641b2d11:0"
+Server: Microsoft-IIS/7.5
+X-Content-Type-Options: nosniff
+Date: Sat, 18 Mar 2017 02:29:10 GMT
+Content-Length: 779
+
+.PNG
+.
+...
+IHDR...q...!.......D'....sRGB.........gAMA......a....	pHYs..........o.d....IDAThC...m.0..q7.....=$-.H	9..E......Az......ZO..y...!%.#...@..!....%....qz.+..<.....W.5.Fd...........t..k2".I...[.f..... ...
+..._...{u.}...N...?.4.q..13...,..........=....t.N..m<<...F$`	Q...+.0#.S	+..rX..h.....e#.Z.
+X..n.. "@rX		..(.M.R{.HU.
+.4....O.~UA..
+.	..@.CD...J..B.,.g.Bo..x
+@.F.h.{....	.q/...R......^O,...cM..t.....(....4.b....^..5..A8^."&.s{S....xY.T.D..Q...B..q4@F....P......	U.H,.L!.:O'..C.D..1............t.g...Z .f.]!&.oX.u.B..=.r..@n	1....S6..."S8.....@. .C ..1..b"b..xw>.....5..-!zp..D.'4.E.Nj.vs.#e....}....{. s...p/...
+....C.B......	...... .....1.d.ot.@
+.....d...	.).7..*5..*5..
+....Rx.w...	-......_..
+s.:b.91...#."..A;bEs`..A;bCsa.9@;....D...q..`v..w......{........IEND.B`.
+
+
+
+
+0
