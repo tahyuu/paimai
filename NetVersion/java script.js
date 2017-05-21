@@ -42,6 +42,7 @@ function showImgCode() {
 				if (dataJson.response.responsecode === 0) {
 					var pairs = dataJson.response.data.split(',');
 					uniqueid = pairs[0];
+					uniqueid = pairs[0]
 					$("#imgcode").attr("src", pairs[1])
 				} else {
 					alert(dataJson.response.responsemsg)

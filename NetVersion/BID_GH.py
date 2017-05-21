@@ -3,7 +3,6 @@ import httplib, urllib, time, json, md5, Tkinter, threading, re, Cookie, sys
 from collections import OrderedDict
 from StringIO import StringIO
 from PIL import Image,ImageTk
-import json
 
 #style="display: true;"
 #conn = httplib.HTTPSConnection("paimai.alltobid.com")
@@ -47,29 +46,13 @@ print data.decode('utf8').encode('gb2312')
 #print poststr
 
 class BID:
-    def __init__(self,configFile):
+    def __init__(self):
         self.version = '1.0'
+        self.bidnumber = '54155387'
+        self.bidpassword = '4958104d5167dba77794b590c131f6aa'
         self.imagenumber = '439103'
+        self.idcard = ''
         self.uniqueid = '09257752-5771-4fb0-bead-c43bdf8928f7'
-        self.dict = {}
-        lines = file(configFile).readlines()
-        self.cookieid=0
-        for i in lines:
-            if i.strip() != '' and i[0] != '#':
-                tmp = i.split()
-                self.dict[tmp[0]] = tmp[1]
-        #for (k,v) in self.dict.items():
-        #    print k,v
-        self.bidnumber = self.dict["bidnum"]
-        self.bidpassword = md5.new(self.dict["bidpwd"]).hexdigest()
-        self.idcard= self.dict["idcard"]
-        print self.bidnumber
-        print self.bidpassword
-        print self.idcard
-        timestr = time.strftime('%Y%m%d',time.localtime())
-        self.referer = "https://paimai.alltobid.com/bid/"+timestr+"01/login.htm"        
-        self.conn = httplib.HTTPSConnection("paimai.alltobid.com")
-        self.step="GetPassCode4Login"
     def GetPassCode4Login(self):
         timestamp = str(int(time.time()*1000))
         params = OrderedDict()
@@ -97,35 +80,13 @@ class BID:
         self.conn.request("POST","/webwcf/BidCmd.svc/WebCmd",poststr,headers)
         ############################################
         #if jason return ok, then show image and ask to recoginize the image
-        res = self.conn.getresponse()
-        print res.status, res.reason
-        #print res.read()
-        if res.status==200:
-            print "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
-            dataJson= json.loads(res.read())
-            dataJson= json.loads(dataJson)
-            print dataJson
-            pairs=dataJson["response"]["data"].split(',')
-            #pairs = dataJson.response.data.split(',')
-            uniqueid = pairs[0];
-            imgurl=pairs[1]
-            print imgurl
-            #self.conn.request("POST",pairs[1])
-            #self.conn.request("POST",pairs[1],poststr,headers)
-            #res=self.conn.getresponse()
-            #print res.read()
-            #save the image file
-            #path = "C:\\Users\\shdyotan\\Desktop\\abc.png"  
-	    #f = file(path,"wb")  
-	    #f.write(res.read())  
-	    #f.close()
-            self.step="readPassCode4Login"
+        if "OK":
+            self.step="readPassCode"
         else:
-            self.step="exit"
-            #self.step="GetPassCode4Login"
-    def readPassCode4Login(self):
-	self.passcode4login=raw_input("please input the passcode for login:")
-        return self.passcode4login
+            self.step="GetPassCode4Login"
+    def readPassCode4Login():
+        self.passcode4login="124556"
+        return "124556"
         pass
 
     def Login(self):
@@ -138,30 +99,16 @@ class BID:
         params['cmd']['bidnumber'] = self.bidnumber       
         params['cmd']['requestid'] = timestamp
         #bidpassword + bidnumber + imagenumber + idcard + requestid + uniqueid + version
-        s = self.bidpassword+self.bidnumber+self.passcode4login+self.idcard+timestamp+self.uniqueid+self.version
+        s = self.bidpassword+self.bidnumber+self.passcode4login+self.idcard+"1492228427948"+self.uniqueid+self.version
         print s
         params['cmd']['checkcode'] = md5.new(s).hexdigest()
         print params['cmd']['checkcode']
         params['cmd'] = urllib.quote(json.dumps(params['cmd'],separators=(',',':')))
         poststr = json.dumps(params,separators=(',',':'))
-        headers = {"Host": "paimai.alltobid.com",
-                   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-                   "Accept": "application/json, text/javascript, */*; q=0.01",
-                   "Accept-Language": "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3",
-                   "Accept-Encoding": "gzip, deflate, br",
-                   "Content-Type": "application/json",
-                   "X-Requested-With": "XMLHttpRequest",
-                   "Referer": self.referer,
-                   "Content-Length": str(len(poststr)),
-                   "Connection": "keep-alive"}
-        self.conn.request("POST","/webwcf/BidCmd.svc/WebCmd",poststr,headers)
-        res = self.conn.getresponse()
-        print res.status, res.reason
-        print res.read()
         if "login success":
-            self.step="GetPassCode4OfferePrice"
+            self.step="GetPassCode4OfferePrice":
         else:
-            self.step="GetPassCode4Login"
+            self.step="GetPassCode4Login":
     def Wait4Start(self):
         if currentMinitues==29:
             self.step="GetPassCode4OfferPrice"
@@ -199,7 +146,7 @@ class BID:
         self.passcode4login="124556"
         self.step="Wait4Submit"
         return "124556"
-    def Wait4Submit(self):
+    def Wait4Submit(self)
         if currentSecond==57:
             self.step="Submit"
     def Submit(self):
@@ -219,6 +166,9 @@ class BID:
             self.label_msg.set('程序已过期'.decode('GBK').encode('UTF-8'))
             return
         else:
+            timestr = time.strftime('%Y%m%d',time.localtime())
+            self.referer = "https://paimai.alltobid.com/bid/"+timestr+"01/login.htm"        
+            self.conn = httplib.HTTPSConnection("paimai.alltobid.com")
             while True:
                 if self.step == 'GetImageCode':
                     self.GetImageCode()
@@ -240,21 +190,19 @@ class BID:
                     time.sleep(10)
                 elif self.step == 'Stop':
                     break
-def GetCurrentTime():
+def GetCurrentTime()
     pass
-def GetLatestPrice():
+def GetLatestPrice()
     pass
 
     
 if __name__=='__main__':
-    bid=BID("liyan.txt")
-    bid.GetPassCode4Login()
-    bid.readPassCode4Login()
-    bid.Login()
-    #t_read_time=threading.Thread(target=readTime,args=(hp,))
-    #t_read_time.start()
-    #t_read_price=threading.Thread(target=readPrice,args=(hp,))
-    #t_read_price.start()
+    bid=BID()
+    bid.run()
+    t_read_time=threading.Thread(target=readTime,args=(hp,))
+    t_read_time.start()
+    t_read_price=threading.Thread(target=readPrice,args=(hp,))
+    t_read_price.start()
 
 
 

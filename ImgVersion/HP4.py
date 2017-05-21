@@ -30,7 +30,7 @@ class HP:
         self.selfInputPrice=True
         self.price_on_40=0
         self.price_on_49=0
-        self.RunModel=1 # if runModl is 1 then submit at 49 go run1, if runmodle is 2 go run2
+        self.RunModel=2 # if runModl is 1 then submit at 49 go run1, if runmodle is 2 go run2
         self.CheckPassCode=True
         self.passcode=""
         #self.CheckPassCode=False
@@ -57,7 +57,7 @@ class HP:
         self.timeSize=(70,16)
         self.priceSize=(46,14)
         self.mypriceSize=(54,24)
-        self.getinputpasscodeSize=(115,27)
+        self.getinputpasscodeSize=(80,27)
         self.cookieid=0
         self.inputedPasscode=""
         self.Flag_input_passcode=False
@@ -114,6 +114,7 @@ class HP:
             point=self.points["inputPrice"]
             bestPrice=((1000-(price_on_49-price_on_40))>=700 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+700)
             bestPrice=bestPrice>latestPrice and bestPrice or latestPrice+300
+            print "price_on_40s is:%s; price_on_49s is:%s; best price is:%s" %(price_on_40,price_on_49,bestPrice)
             mouse_dclick(point[0],point[1])
             if self.action.find("TestPoints")>-1:
                 bestPrice=88000
@@ -144,6 +145,7 @@ class HP:
             #print type(addprice)
             #if action is test points then add price value is 88000
             mouse_dclick(point[0],point[1])
+            time.sleep(0.1)
             key_input(str(addprice))
             self.step="addPrice"
          #   #self.step="addPrice"
@@ -152,20 +154,25 @@ class HP:
         #except:
         #    self.step="enterPrice"
     def addPrice(self):
-        try:
+        if True:
             if not self.selfInputPrice:
                 point=self.points["addPrice"]
                 mouse_click(point[0],point[1])
             self.step="offerPrice"
+        try:
+            pass
         except:
             self.step="addPrice"
         pass
     def offerPrice(self):
-        try:
+        if True:
             point=self.points["offerPrice"]
             mouse_click(point[0],point[1])
-            self.myPrice=int(self.readMyPrice())
+            #time.sleep(0.2)
+            #self.myPrice=int(self.readMyPrice())
             self.step="flashPasscode"
+        try:
+            pass
         except:
             self.step="offerPrice"
         pass
@@ -195,13 +202,16 @@ class HP:
             #point=self.points["comdPosition"]
             #mouse_click(point[0],point[1])
             #passcode=raw_input()
+            #to read my price
             if self.RunModel==0:
                 self.passcode=""
-                self.notepad = subprocess.Popen ([r"python","E:\HP\Web\InputPassCode.py"],stdout=subprocess.PIPE)
+                self.notepad = subprocess.Popen ([r"python","InputPassCode.py"],stdout=subprocess.PIPE)
                 for hwnd in get_hwnds_for_pid (self.notepad.pid):
                     print hwnd, "=>", win32gui.GetWindowText (hwnd)
                     win32gui.SetForegroundWindow(hwnd)
+                time.sleep(5)
                 #self.notepad.wait()
+                print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
                 self.passcode=self.notepad.communicate()[0].strip()
                 print "XXXXXXXXXXXXX %s" %self.passcode
                 #self.passcode=self.passcode=
@@ -211,6 +221,7 @@ class HP:
                 self.step="waitForSubmit"
                 return
             elif self.RunModel==2:
+                self.myPrice=int(self.readMyPrice())
                 point=self.points["getInputpasscode"]
                 mouse_click(point[0]+30,point[1]+7)
                 print self.passcode
@@ -218,6 +229,7 @@ class HP:
                 self.step="waitForSubmit"
                 return
             elif  self.RunModel==1:
+                self.myPrice=int(self.readMyPrice())
                 self.step="waitForSubmit"
                 return
         try:
@@ -352,6 +364,9 @@ class HP:
         return latestPrice
     def readMyPrice(self):
         if True:
+            #add below condition because there was a bug to when test the points, need to make the Image show good before read
+            if self.action.find("Test")>-1:
+                time.sleep(1)
             point=self.points["readMyPrice"]
             im = ImageGrab.grab()
             im = ImageGrab.grab((point[0],point[1],point[0]+self.mypriceSize[0],point[1]+self.mypriceSize[1]))
@@ -367,9 +382,9 @@ class HP:
             vcode = pytesseract.image_to_string(sharp_img)
             if self.action.find("Test")>-1: 
                 if len(vcode)==5:
-                    print "READ My Price PASS (%s)" %vcode
+                    print "My Price PASS (%s)" %vcode
                 else:
-                    print "READ My Price FAIL (%s)" %vcode
+                    print "My Price FAIL (%s)" %vcode
             #self.latestPrice=int(vcode)
             print (vcode)
             return vcode
@@ -401,7 +416,7 @@ class HP:
             #    else:
             #        print "Test get Inptut passCode FAIL (%s)" %vcode
             #return len(vcode.strip())
-            return vcode.strip()
+            return vcode.replace("|","").strip()
             pass
         except:
             return ""
@@ -427,9 +442,9 @@ class HP:
                 break
             po=win32gui.GetCursorPos()
         if len(code)==4:
-            print "Test get Inptut passCode PASS (%s)" %code
+            print "Inptut passCode PASS (%s)" %code
         else:
-            print "Test get Inptut passCode FAIL (%s)" %code
+            print "Inptut passCode FAIL (%s)" %code
         hp.submit()
     def Run1(self):
         global stopFlag
@@ -497,7 +512,8 @@ def Run2(hpobj):
         #to check if the passscodes are the same, 
         if len(passcodes)>0 and passcodes.count(passcodes[0])==len(passcodes):
             hpobj.passcode=passcodes[0]
-            passcodeAreSame=True
+            #to disable it because not passcode are not same at most of the time.
+            #passcodeAreSame=True
 
         if passcodeAreSame: # if the tree passcode is same or not, if same then submit at 55, else go to Run1
             #hpobj.passcode="1234"
@@ -548,8 +564,7 @@ def readTime(hpobj,i=0):
     global currentSecond
     #for i in xrange(200):
     while True:
-        try:
-        #if True:
+        if True:
             if stopFlag:
                 break
 	    point=hpobj.points["readTime"]
@@ -569,9 +584,9 @@ def readTime(hpobj,i=0):
 	    vcode = pytesseract.image_to_string(sharp_img)
             if hpobj.action.find("Test")>-1: 
                 if len(vcode)==8:
-                    print "READ System Time PASS (%s)" %vcode
+                    print "System Time PASS (%s)" %vcode
                 else:
-                    print "READ System Time FAIL (%s)" %vcode
+                    print "System Time FAIL (%s)" %vcode
                 break
 	    hpobj.currentTime_in_str=vcode
             try:
@@ -596,6 +611,8 @@ def readTime(hpobj,i=0):
             #hpobj.timeList.append([int(time.time()*10),vcode])
             #print (vcode)
 	    #return vcode
+        try:
+            pass
         except:
             pass
             #return ""
@@ -611,8 +628,8 @@ def readPrice(hpobj):
     global price_on_49
     #for i in xrange(100):
     while True:
-        #if True:
-        try:
+        if True:
+        #try:
             if stopFlag:
                 break
             point=hpobj.points["readPrice"]
@@ -632,9 +649,9 @@ def readPrice(hpobj):
             vcode = vcode.replace(" ","").replace("T","7")
             if hpobj.action.find("Test")>-1: 
                 if len(vcode.strip())==5:
-                    print "READ Current Price PASS (%s)" %vcode.strip()
+                    print "Current Price PASS (%s)" %vcode.strip()
                 else:
-                    print "READ Current Price FAIL (%s)" %vcode.strip()
+                    print "Current Price FAIL (%s)" %vcode.strip()
                 break
             latestPrice=int(vcode.replace(" ","").replace("T","7"))
             #hpobj.latestPrice=latestPrice
@@ -645,6 +662,8 @@ def readPrice(hpobj):
             #    break
             #print vcode.replace(" ","")
             #return vcode
+        try:
+            pass
         except:
             pass
             #return "0"
@@ -662,8 +681,12 @@ if __name__=="__main__":
     run.start()
     t_read_time=threading.Thread(target=readTime,args=(hp,))
     t_read_time.start()
+    t_read_time=threading.Thread(target=readTime,args=(hp,))
+    t_read_time.start()
     t_read_price=threading.Thread(target=readPrice,args=(hp,))
     t_read_price.start()
+    #t_read_price=threading.Thread(target=readPrice,args=(hp,))
+    #t_read_price.start()
     #t_read_time=threading.Thread(target=readTime,args=(hp,))
     #t_read_time.start()
     #t_read_price=threading.Thread(target=readPrice,args=(hp,))
