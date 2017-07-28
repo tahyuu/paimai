@@ -1,0 +1,211 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'G:\WorkSpace\paimai\GUI\main.ui'
+#
+# Created: Thu May 25 08:28:59 2017
+#      by: PyQt4 UI code generator 4.11.3
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName(_fromUtf8("MainWindow"))
+        MainWindow.setEnabled(True)
+        MainWindow.resize(237, 508)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
+        self.centralwidget = QtGui.QWidget(MainWindow)
+        self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.label_2 = QtGui.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(10, 10, 71, 16))
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.label_3 = QtGui.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(10, 190, 71, 16))
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.tabWidget = QtGui.QTabWidget(self.centralwidget)
+        self.tabWidget.setGeometry(QtCore.QRect(10, 210, 221, 251))
+        self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
+        self.tab = QtGui.QWidget()
+        self.tab.setObjectName(_fromUtf8("tab"))
+        self.pushButton_timecal = QtGui.QPushButton(self.tab)
+        self.pushButton_timecal.setGeometry(QtCore.QRect(50, 10, 101, 23))
+        self.pushButton_timecal.setObjectName(_fromUtf8("pushButton_timecal"))
+        self.tabWidget.addTab(self.tab, _fromUtf8(""))
+        self.tab2 = QtGui.QWidget()
+        self.tab2.setObjectName(_fromUtf8("tab2"))
+        self.tableWidget = QtGui.QTableWidget(self.tab2)
+        self.tableWidget.setGeometry(QtCore.QRect(0, 40, 211, 171))
+        self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
+        self.tableWidget.setColumnCount(2)
+        self.tableWidget.setRowCount(4)
+        item = QtGui.QTableWidgetItem()
+        font = QtGui.QFont()
+        font.setKerning(False)
+        item.setFont(font)
+        self.tableWidget.setVerticalHeaderItem(0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(1, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(2, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(3, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(0, 0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(0, 1, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(1, 0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(1, 1, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(2, 0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(2, 1, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(3, 0, item)
+        item = QtGui.QTableWidgetItem()
+        self.tableWidget.setItem(3, 1, item)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(80)
+        self.tableWidget.horizontalHeader().setMinimumSectionSize(80)
+        self.pushButton_positioncal = QtGui.QPushButton(self.tab2)
+        self.pushButton_positioncal.setGeometry(QtCore.QRect(50, 10, 101, 23))
+        self.pushButton_positioncal.setObjectName(_fromUtf8("pushButton_positioncal"))
+        self.tabWidget.addTab(self.tab2, _fromUtf8(""))
+        self.tab3 = QtGui.QWidget()
+        self.tab3.setObjectName(_fromUtf8("tab3"))
+        self.pushButton_test = QtGui.QPushButton(self.tab3)
+        self.pushButton_test.setGeometry(QtCore.QRect(60, 10, 101, 23))
+        self.pushButton_test.setObjectName(_fromUtf8("pushButton_test"))
+        self.tabWidget.addTab(self.tab3, _fromUtf8(""))
+        self.tab1 = QtGui.QWidget()
+        self.tab1.setObjectName(_fromUtf8("tab1"))
+        self.pushButton_start = QtGui.QPushButton(self.tab1)
+        self.pushButton_start.setGeometry(QtCore.QRect(60, 10, 101, 23))
+        self.pushButton_start.setObjectName(_fromUtf8("pushButton_start"))
+        self.tabWidget.addTab(self.tab1, _fromUtf8(""))
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(10, 70, 71, 16))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.textBrowser = QtGui.QTextBrowser(self.centralwidget)
+        self.textBrowser.setGeometry(QtCore.QRect(10, 90, 221, 91))
+        self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
+        self.label_time = QtGui.QLabel(self.centralwidget)
+        self.label_time.setGeometry(QtCore.QRect(20, 30, 201, 21))
+        self.label_time.setStyleSheet(_fromUtf8("color:rgb(255, 0, 0);\n"
+"font: 12pt \"Arial\";"))
+        self.label_time.setObjectName(_fromUtf8("label_time"))
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtGui.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 237, 23))
+        self.menubar.setObjectName(_fromUtf8("menubar"))
+        self.menu = QtGui.QMenu(self.menubar)
+        self.menu.setObjectName(_fromUtf8("menu"))
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtGui.QStatusBar(MainWindow)
+        self.statusbar.setObjectName(_fromUtf8("statusbar"))
+        MainWindow.setStatusBar(self.statusbar)
+        self.action = QtGui.QAction(MainWindow)
+        self.action.setObjectName(_fromUtf8("action"))
+        self.menu.addAction(self.action)
+        self.menubar.addAction(self.menu.menuAction())
+        
+        
+        self.timer = QtCore.QTimer()  
+        self.timer.timeout.connect(self.time_display)  
+        self.timer.start(1000)  
+
+        self.retranslateUi(MainWindow)
+        self.tabWidget.setCurrentIndex(0)
+        QtCore.QObject.connect(self.pushButton_timecal, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.close)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+        self.label_2.setText(_translate("MainWindow", "【当前时间】", None))
+        self.label_3.setText(_translate("MainWindow", "【执行动作】", None))
+        self.pushButton_timecal.setText(_translate("MainWindow", "时间校准", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "时间", None))
+        item = self.tableWidget.verticalHeaderItem(0)
+        item.setText(_translate("MainWindow", "时间", None))
+        item = self.tableWidget.verticalHeaderItem(1)
+        item.setText(_translate("MainWindow", "价格", None))
+        item = self.tableWidget.verticalHeaderItem(2)
+        item.setText(_translate("MainWindow", "出价", None))
+        item = self.tableWidget.verticalHeaderItem(3)
+        item.setText(_translate("MainWindow", "验证码", None))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "图片", None))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "值", None))
+        __sortingEnabled = self.tableWidget.isSortingEnabled()
+        self.tableWidget.setSortingEnabled(False)
+        item = self.tableWidget.item(0, 0)
+        item.setText(_translate("MainWindow", "11:23:22", None))
+        item = self.tableWidget.item(0, 1)
+        item.setText(_translate("MainWindow", "11:23:22", None))
+        item = self.tableWidget.item(1, 0)
+        item.setText(_translate("MainWindow", "89600", None))
+        item = self.tableWidget.item(1, 1)
+        item.setText(_translate("MainWindow", "89700", None))
+        item = self.tableWidget.item(2, 0)
+        item.setText(_translate("MainWindow", "89700", None))
+        item = self.tableWidget.item(2, 1)
+        item.setText(_translate("MainWindow", "89500", None))
+        item = self.tableWidget.item(3, 0)
+        item.setText(_translate("MainWindow", "1234", None))
+        item = self.tableWidget.item(3, 1)
+        item.setText(_translate("MainWindow", "1234", None))
+        self.tableWidget.setSortingEnabled(__sortingEnabled)
+        self.pushButton_positioncal.setText(_translate("MainWindow", "坐标自动对齐", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab2), _translate("MainWindow", "坐标", None))
+        self.pushButton_test.setText(_translate("MainWindow", "拍前测试", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab3), _translate("MainWindow", "测试", None))
+        self.pushButton_start.setText(_translate("MainWindow", "正式开始", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab1), _translate("MainWindow", "开始", None))
+        self.label.setText(_translate("MainWindow", "【引导信息】", None))
+        self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#ff0000;\">您好：欢迎使用</span></p></body></html>", None))
+        self.label_time.setText(_translate("MainWindow", "2017年05月24日 11:13:00", None))
+        self.menu.setTitle(_translate("MainWindow", "配置", None))
+        self.action.setText(_translate("MainWindow", "基本配置", None))
+    def time_display(self):
+        current = QtCore.QTime.currentTime() 
+        #self.label_time.display(current.toString('HH:mm:ss')) 
+        self.label_time.setText(_translate("MainWindow", current.toString('YYYY-MM-DD HH:mm:ss'), None))
+        pass
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    MainWindow = QtGui.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
+

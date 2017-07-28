@@ -295,12 +295,7 @@ class HP:
             #To check if current Sencond >55 if >55 then submit by force
             #########################################################
             if  int(currentSecond)>=self.pushByforce-1:
-                waitTime=(self.pushByforce-int(currentSecond))*0.5
-                #to check if waittime>0 because wait(-1) will wait long time
-                if waitTime>0:
-                    pass
-                else:
-                    waitTime=0
+                waitTime=(self.pushByforce-int(currentSecond))*0.8
                 print "current time: %s\nwait time: %s" %(currentSecond,waitTime)
                 time.sleep(waitTime)
                 print "Time out(%s)" %self.myPrice
