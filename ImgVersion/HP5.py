@@ -15,18 +15,20 @@ import win32gui
 import win32process
 import subprocess
 import threading
+import random
 
 stopFlag = False
 latestPrice = 0
 price_on_40= 0
 price_on_49= 0 
 currentSecond=0
+logstr=""
 
 class HP:
     def __init__(self):
         #self.strategy=["50","50"]
         self.strategy=["49"]
-        self.pushByforce=55
+        self.pushByforce=51
         self.selfInputPrice=True
         self.price_on_40=0
         self.price_on_49=0
@@ -111,11 +113,13 @@ class HP:
         global latestPrice
         global price_on_40
         global price_on_49
+        global logstr
         if self.selfInputPrice:
             point=self.points["inputPrice"]
-            bestPrice=((1000-(price_on_49-price_on_40))>=700 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+700)
+            bestPrice=((1000-(price_on_49-price_on_40))>=800 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+800)
             bestPrice=bestPrice>latestPrice and bestPrice or latestPrice+300
             print "price_on_40s is:%s; price_on_49s is:%s; best price is:%s" %(price_on_40,price_on_49,bestPrice)
+            logstr+= "price_on_40s is:%s; price_on_49s is:%s; best price is:%s\n" %(price_on_40,price_on_49,bestPrice)
             mouse_dclick(point[0],point[1])
             if self.action.find("TestPoints")>-1:
                 bestPrice=88000
@@ -142,6 +146,7 @@ class HP:
                 self.step="enterPrice"
                 return
             print "price_on_40s is:%s; price_on_49s is:%s; add price is:%s" %(price_on_40,price_on_49,addprice)
+            logstr+= "price_on_40s is:%s; price_on_49s is:%s; add price is:%s\n" %(price_on_40,price_on_49,addprice)
                 
             #print type(addprice)
             #if action is test points then add price value is 88000
@@ -205,16 +210,16 @@ class HP:
             #passcode=raw_input()
             #to read my price
             if self.RunModel==0:
-                self.passcode=""
-                self.notepad = subprocess.Popen ([r"python","InputPassCode.py"],stdout=subprocess.PIPE)
-                for hwnd in get_hwnds_for_pid (self.notepad.pid):
-                    print hwnd, "=>", win32gui.GetWindowText (hwnd)
-                    win32gui.SetForegroundWindow(hwnd)
-                time.sleep(5)
+                self.passcode="%s" %random.randint(0,10000)
+                time.sleep(6)
+                #self.notepad = subprocess.Popen ([r"python","InputPassCode.py"],stdout=subprocess.PIPE)
+                #for hwnd in get_hwnds_for_pid (self.notepad.pid):
+                #    print hwnd, "=>", win32gui.GetWindowText (hwnd)
+                #    win32gui.SetForegroundWindow(hwnd)
                 #self.notepad.wait()
                 print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-                self.passcode=self.notepad.communicate()[0].strip()
-                print "XXXXXXXXXXXXX %s" %self.passcode
+                #self.passcode=self.notepad.communicate()[0].strip()
+                #print "XXXXXXXXXXXXX %s" %self.passcode
                 #self.passcode=self.passcode=
                 #inp=InputPassCode()
                 #inp.pid
@@ -234,7 +239,7 @@ class HP:
                 self.step="waitForSubmit"
                 return
             elif  self.RunModel==1:
-                self.myPrice=int(self.readMyPrice())
+                self.myPrice=int(self.readMyPrice().replace(" ",""))
                 self.step="waitForSubmit"
                 return
         try:
@@ -246,6 +251,7 @@ class HP:
     def waitForSubmit(self):
         global latestPrice
         global currentSecond
+        global logstr
         if True:
             # read the price if evluate price - readprice <500 then submit
             # or time > 55s then submit
@@ -283,6 +289,7 @@ class HP:
                     self.step="waitForSubmit"
                     return
             print "passcode(%s)" %self.inputedPasscode
+            logstr+= "passcode(%s)\n" %self.inputedPasscode
             #if not self.Flag_passcode_in_range:
             #########################################################
             #read time and get latest price
@@ -295,16 +302,24 @@ class HP:
             #To check if current Sencond >55 if >55 then submit by force
             #########################################################
             if  int(currentSecond)>=self.pushByforce-1:
-                waitTime=(self.pushByforce-int(currentSecond))*0.8
+                waitTime=(self.pushByforce-int(currentSecond))*0.5
+                #to check if waittime>0 because wait(-1) will wait long time
+                if waitTime>0:
+                    pass
+                else:
+                    waitTime=0
                 print "current time: %s\nwait time: %s" %(currentSecond,waitTime)
+                logstr+=  "current time: %s\nwait time: %s\n" %(currentSecond,waitTime)
                 time.sleep(waitTime)
                 print "Time out(%s)" %self.myPrice
+                logstr+= "Time out(%s)\n" %self.myPrice  
                 self.step="submit"
                 return
             #########################################################
             #To check the price already in submit range 
             #########################################################
             print "%s - %s = %s" %(self.myPrice,latestPrice,self.myPrice-latestPrice)
+            logstr+= "%s - %s = %s\n" %(self.myPrice,latestPrice,self.myPrice-latestPrice)  
             #if latestPrice_in_str:
             #    self.latestPrice=int(latestPrice_in_str)
                 #print self.latestPrice
@@ -315,6 +330,7 @@ class HP:
             if latestPrice>=self.myPrice-400:
                 #time.sleep(0.2)
                 print "In range(%s)" %self.myPrice
+                logstr+= "In range(%s)\n" %self.myPrice  
                 self.step="submit"
                 return
             else:
@@ -375,15 +391,15 @@ class HP:
             point=self.points["readMyPrice"]
             im = ImageGrab.grab()
             im = ImageGrab.grab((point[0],point[1],point[0]+self.mypriceSize[0],point[1]+self.mypriceSize[1]))
-            width=self.mypriceSize[0]*5
-            height=self.mypriceSize[1]*5
+            width=self.mypriceSize[0]*10
+            height=self.mypriceSize[1]*10
             big_im= im.resize((width, height),Image.ANTIALIAS) #resize image with high-quality
             if self.action.find("Test")>-1 and (not self.Imgsaved):
                 big_im.save("Image\\big_MyPrice.png")
             imgry = big_im.convert('L')
             sharpness=ImageEnhance.Contrast(imgry)
             sharp_img=sharpness.enhance(2.0)
-            #vcode = pytesseract.image_to_string(sharp_img,config='-psm 10 digits')
+            #vcode = pytesseract.image_to_string(sharp_img,config='-psm 7 digits')
             vcode = pytesseract.image_to_string(sharp_img)
             if self.action.find("Test")>-1: 
                 if len(vcode)==5:
@@ -569,6 +585,7 @@ def readTime(hpobj,i=0):
     global price_on_40
     global price_on_49
     global currentSecond
+    global logstr
     #for i in xrange(200):
     while True:
         if True:
@@ -578,8 +595,8 @@ def readTime(hpobj,i=0):
             timestamp=time.time()*1000
 	    im = ImageGrab.grab()
 	    im = ImageGrab.grab((point[0],point[1],point[0]+hpobj.timeSize[0],point[1]+hpobj.timeSize[1]))
-	    width=hpobj.priceSize[0]*10
-	    height=hpobj.priceSize[1]*10
+	    width=hpobj.priceSize[0]*30
+	    height=hpobj.priceSize[1]*30
             #im.show()
 	    big_im= im.resize((width, height),Image.ANTIALIAS) #resize image with high-quality
             if hpobj.action.find("TestPoints")>-1 and (not hpobj.Imgsaved):
@@ -588,6 +605,7 @@ def readTime(hpobj,i=0):
 	    sharpness=ImageEnhance.Contrast(imgry)
 	    sharp_img=sharpness.enhance(2.0)
 	    #sharp_img.save("Image\\time_b%s.png" %i)
+            #vcode = pytesseract.image_to_string(sharp_img,config='-psm 7 digits')
 	    vcode = pytesseract.image_to_string(sharp_img)
             if hpobj.action.find("TestPoints")>-1: 
                 if len(vcode)==8:
@@ -603,6 +621,7 @@ def readTime(hpobj,i=0):
                 currentSecond=0
             #print "timestamp: %s current second: %s latest price: %s" %(timestamp, currentSecond, latestPrice)
             print " %s : %s" %(currentSecond, latestPrice)
+            logstr+= " %s : %s\n" %(currentSecond, latestPrice)  
             if currentSecond==40 and latestPrice>price_on_40:
                 price_on_40= latestPrice
             if currentSecond>=40 and price_on_40==0:
@@ -625,6 +644,7 @@ def readTime(hpobj,i=0):
             #return ""
     #print price_on_40
     #print price_on_49
+    logstr+= "best price is:%s\n" %((1000-(price_on_49-price_on_40))>=700 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+700)  
     print "best price is:%s" %((1000-(price_on_49-price_on_40))>=700 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+700)
     #print hpobj.timeList
 
@@ -642,8 +662,8 @@ def readPrice(hpobj):
             point=hpobj.points["readPrice"]
             im = ImageGrab.grab()
             im = ImageGrab.grab((point[0],point[1],point[0]+hpobj.priceSize[0],point[1]+hpobj.priceSize[1]))
-            width=hpobj.priceSize[0]*5
-            height=hpobj.priceSize[1]*5
+            width=hpobj.priceSize[0]*30
+            height=hpobj.priceSize[1]*30
             #im.show()
             #big_im= im.resize((width, height),Image.ANTIALIAS) #resize image with high-quality
             big_im= im.resize((width, height),Image.ANTIALIAS) #resize image with high-quality
@@ -653,6 +673,7 @@ def readPrice(hpobj):
             sharpness=ImageEnhance.Contrast(imgry)
             sharp_img=sharpness.enhance(2.0)
 	    #sharp_img.save("Image\\price_b0s.png")
+            #vcode = pytesseract.image_to_string(sharp_img,config='-psm 7 digits')
             vcode = pytesseract.image_to_string(sharp_img)
             vcode = vcode.replace(" ","").replace("T","7")
             if hpobj.action.find("TestPoints")>-1: 
@@ -661,7 +682,13 @@ def readPrice(hpobj):
                 else:
                     print "Current Price FAIL (%s)" %vcode.strip()
                 break
-            latestPrice=int(vcode.replace(" ","").replace("T","7"))
+            currentPrice=0
+	    try:
+            	currentPrice=int(vcode.replace(" ","").replace("T","7")) 
+	    except:
+	    	pass
+            latestPrice= latestPrice<currentPrice and currentPrice or latestPrice
+            #latestPrice=int(vcode.replace(" ","").replace("T","7"))
             #hpobj.latestPrice=latestPrice
             #print latestPrice
             #vcode=vcode.replace(" ","")
@@ -696,6 +723,7 @@ if __name__=="__main__":
     t_read_price.start()
     t_read_price=threading.Thread(target=readPrice,args=(hp,))
     t_read_price.start()
+    print "XXXXXXXXXXXXXXXXXXXXXXXXXXBBBBBBBBBBBBBBBBBBBBBBBBB"
     #t_read_time=threading.Thread(target=readTime,args=(hp,))
     #t_read_time.start()
     #t_read_price=threading.Thread(target=readPrice,args=(hp,))
