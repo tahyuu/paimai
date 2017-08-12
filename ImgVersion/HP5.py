@@ -141,7 +141,7 @@ class HP:
             #else:
             #    addprice=str(self.strategy_time_price[currentSecond])
             if price_on_49>0 and price_on_40>0:
-                addprice=str(((1000-(price_on_49-price_on_40))>=700 and (1000-(price_on_49-price_on_40)) or 700))
+                addprice=str(((1000-(price_on_49-price_on_40))>=800 and (1000-(price_on_49-price_on_40)) or 800))
             else:
                 self.step="enterPrice"
                 return
@@ -644,8 +644,8 @@ def readTime(hpobj,i=0):
             #return ""
     #print price_on_40
     #print price_on_49
-    logstr+= "best price is:%s\n" %((1000-(price_on_49-price_on_40))>=700 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+700)  
-    print "best price is:%s" %((1000-(price_on_49-price_on_40))>=700 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+700)
+    logstr+= "best price is:%s\n" %((1000-(price_on_49-price_on_40))>=800 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+800)  
+    print "best price is:%s" %((1000-(price_on_49-price_on_40))>=800 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+800)
     #print hpobj.timeList
 
 def readPrice(hpobj):
