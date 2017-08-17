@@ -26,9 +26,7 @@ logstr=""
 
 class HP:
     def __init__(self):
-        #self.strategy=["50","50"]
-        self.strategy=["49"]
-        self.pushByforce=51
+        self.pushByforce=53
         self.selfInputPrice=True
         self.price_on_40=0
         self.price_on_49=0
@@ -36,7 +34,6 @@ class HP:
         self.CheckPassCode=True
         self.passcode=""
         #self.CheckPassCode=False
-        #self.strategy_time_price_dic_1={
         self.points={"enterPrice":(889,398), # enter price input
                 "addPrice":(981,398), # add price button
                 "offerPrice":(985,501), # offer price button
@@ -88,7 +85,6 @@ class HP:
             #else:
             #    currentSecond=self.readTime()
             #print "current second:%s" %currentSecond
-            #if int(currentSecond)>=int(self.strategy[0]):
 	    #change to check if the price_49 > price_on_40
             if price_on_49>price_on_40:
                 self.step="enterPrice"
@@ -131,18 +127,7 @@ class HP:
             return
         else:
             addprice=0
-            #currentTime_in_str=self.readTime()
-            #if currentTime_in_str:
-            #    currentSecond=self.readTime().split
-            #while not currentTime_in_str:
-            #    currentTime_in_str=self.readTime()
-            #print self.readTime()
-            #currentSecond=self.readTime()
             point=self.points["enterPrice"]
-            #if int(currentSecond)<=int(self.strategy_time_price.keys()[0]):
-            #    addprice=str(self.strategy_time_price.values()[0])
-            #else:
-            #    addprice=str(self.strategy_time_price[currentSecond])
             if price_on_49>0 and price_on_40>0:
                 addprice=str(((1000-(price_on_49-price_on_40))>=800 and (1000-(price_on_49-price_on_40)) or 800))
             else:
