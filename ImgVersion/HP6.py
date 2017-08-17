@@ -629,9 +629,9 @@ def readTime(hpobj,i=0):
                 price_on_40= latestPrice
             if currentSecond>=40 and price_on_40==0:
                 price_on_40= latestPrice
-            if currentSecond==49 and latestPrice>price_on_49:
+            if currentSecond==48 and latestPrice>price_on_49:
                 price_on_49= latestPrice
-            if currentSecond>=49 and price_on_49==0:
+            if currentSecond>=48 and price_on_49==0:
                 price_on_49= latestPrice
             if currentSecond>=59:
                 stopFlag=True
