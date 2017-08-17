@@ -26,6 +26,8 @@ logstr=""
 
 class HP:
     def __init__(self):
+    	#add price strategy is 1 mean add price with 1000-(p2-p1)>800?1000-(p2-p1):800; 2 means p2+900
+	self.add_price_strategy=2
         self.pushByforce=53
         self.selfInputPrice=True
         self.price_on_40=0
@@ -115,7 +117,10 @@ class HP:
         global logstr
         if self.selfInputPrice:
             point=self.points["inputPrice"]
-            bestPrice=((1000-(price_on_49-price_on_40))>=800 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+800)
+	    if self.add_price_strategy==1:
+            	bestPrice=((1000-(price_on_49-price_on_40))>=800 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+800)
+	    else:
+            	bestPrice=price_on_49+900
             bestPrice=bestPrice>latestPrice and bestPrice or latestPrice+300
             print "price_on_40s is:%s; price_on_49s is:%s; best price is:%s" %(price_on_40,price_on_49,bestPrice)
             logstr+= "price_on_40s is:%s; price_on_49s is:%s; best price is:%s\n" %(price_on_40,price_on_49,bestPrice)
@@ -733,4 +738,4 @@ if __name__=="__main__":
     #4  if passcode1=passcode2=passcode3
     #5   55+5000
     #6  else: 
-    #    old program.
+    #    oldprogram.
