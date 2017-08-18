@@ -17,21 +17,35 @@ import subprocess
 import threading
 import random
 
-stopFlag = False
+#---------------------config---------------------
+add_price_strategy=2 # add price strategy is 1 mean add price with 1000-(price_on_2-price_on_1)>800?1000-(price_on_2-price_on_1):800; 2 means price_on_2+900
+second_on_2=48 # for strategy 1 and 2
+pushByforce=53 # for strategy 1 and 2
+# strategy1 
+second_on_1=40 # for strategy 1
+
+# strategy2 
+strategy_2_add_price=900 #for strategy 2
+#---------------------config--------------------
+
+#paramater
 latestPrice = 0
-price_on_40= 0
-price_on_49= 0 
+price_on_1= 0
+price_on_2= 0 
+stopFlag = False
 currentSecond=0
 logstr=""
 
 class HP:
     def __init__(self):
-    	#add price strategy is 1 mean add price with 1000-(p2-p1)>800?1000-(p2-p1):800; 2 means p2+900
-	self.add_price_strategy=2
-        self.pushByforce=53
+        global add_price_strategy
+        global pushByforce
+    	#add price strategy is 1 mean add price with 1000-(price_on_2-price_on_1)>800?1000-(price_on_2-price_on_1):800; 2 means price_on_2+900
+	self.add_price_strategy=add_price_strategy
+        self.pushByforce=pushByforce
         self.selfInputPrice=True
-        self.price_on_40=0
-        self.price_on_49=0
+        self.price_on_1=0
+        self.price_on_2=0
         self.RunModel=2 # if runModl is 1 then submit at 49 go run1, if runmodle is 2 go run2
         self.CheckPassCode=True
         self.passcode=""
@@ -75,7 +89,7 @@ class HP:
         #self.step="exit"
     def waitForStart(self):
         global currentSecond
-	global price_on_49
+	global price_on_2
         if True:
             if self.action.find("TestPoints")>-1:
                 self.step="enterPrice"
@@ -87,8 +101,8 @@ class HP:
             #else:
             #    currentSecond=self.readTime()
             #print "current second:%s" %currentSecond
-	    #change to check if the price_49 > price_on_40
-            if price_on_49>price_on_40:
+	    #change to check if the price_on_2 > price_on_1
+            if price_on_2>price_on_1:
                 self.step="enterPrice"
         #print self.step
         try:
@@ -112,18 +126,18 @@ class HP:
     def enterPrice(self):
         #if True:
         global latestPrice
-        global price_on_40
-        global price_on_49
+        global price_on_1
+        global price_on_2
         global logstr
         if self.selfInputPrice:
             point=self.points["inputPrice"]
 	    if self.add_price_strategy==1:
-            	bestPrice=((1000-(price_on_49-price_on_40))>=800 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+800)
+            	bestPrice=((1000-(price_on_2-price_on_1))>=800 and price_on_2+(1000-(price_on_2-price_on_1)) or price_on_2+800)
 	    else:
-            	bestPrice=price_on_49+900
+            	bestPrice=price_on_2+900
             bestPrice=bestPrice>latestPrice and bestPrice or latestPrice+300
-            print "price_on_40s is:%s; price_on_49s is:%s; best price is:%s" %(price_on_40,price_on_49,bestPrice)
-            logstr+= "price_on_40s is:%s; price_on_49s is:%s; best price is:%s\n" %(price_on_40,price_on_49,bestPrice)
+            print "price_on_1s is:%s; price_on_2s is:%s; best price is:%s" %(price_on_1,price_on_2,bestPrice)
+            logstr+= "price_on_1s is:%s; price_on_2s is:%s; best price is:%s\n" %(price_on_1,price_on_2,bestPrice)
             mouse_dclick(point[0],point[1])
             if self.action.find("TestPoints")>-1:
                 bestPrice=88000
@@ -133,13 +147,13 @@ class HP:
         else:
             addprice=0
             point=self.points["enterPrice"]
-            if price_on_49>0 and price_on_40>0:
-                addprice=str(((1000-(price_on_49-price_on_40))>=800 and (1000-(price_on_49-price_on_40)) or 800))
+            if price_on_2>0 and price_on_1>0:
+                addprice=str(((1000-(price_on_2-price_on_1))>=800 and (1000-(price_on_2-price_on_1)) or 800))
             else:
                 self.step="enterPrice"
                 return
-            print "price_on_40s is:%s; price_on_49s is:%s; add price is:%s" %(price_on_40,price_on_49,addprice)
-            logstr+= "price_on_40s is:%s; price_on_49s is:%s; add price is:%s\n" %(price_on_40,price_on_49,addprice)
+            print "price_on_1s is:%s; price_on_2s is:%s; add price is:%s" %(price_on_1,price_on_2,addprice)
+            logstr+= "price_on_1s is:%s; price_on_2s is:%s; add price is:%s\n" %(price_on_1,price_on_2,addprice)
                 
             #print type(addprice)
             #if action is test points then add price value is 88000
@@ -575,8 +589,10 @@ def get_hwnds_for_pid (pid):
 def readTime(hpobj,i=0):
     global stopFlag
     global latestPrice
-    global price_on_40
-    global price_on_49
+    global price_on_1
+    global price_on_2
+    global second_on_1
+    global second_on_2
     global currentSecond
     global logstr
     #for i in xrange(200):
@@ -615,14 +631,14 @@ def readTime(hpobj,i=0):
             #print "timestamp: %s current second: %s latest price: %s" %(timestamp, currentSecond, latestPrice)
             print " %s : %s" %(currentSecond, latestPrice)
             logstr+= " %s : %s\n" %(currentSecond, latestPrice)  
-            if currentSecond==40 and latestPrice>price_on_40:
-                price_on_40= latestPrice
-            if currentSecond>=40 and price_on_40==0:
-                price_on_40= latestPrice
-            if currentSecond==48 and latestPrice>price_on_49:
-                price_on_49= latestPrice
-            if currentSecond>=48 and price_on_49==0:
-                price_on_49= latestPrice
+            if currentSecond==second_on_1 and latestPrice>price_on_1:
+                price_on_1= latestPrice
+            if currentSecond>=second_on_1 and price_on_1==0:
+                price_on_1= latestPrice
+            if currentSecond==second_on_2  and latestPrice>price_on_2:
+                price_on_2= latestPrice
+            if currentSecond>=second_on_2  and price_on_2==0:
+                price_on_2= latestPrice
             if currentSecond>=59:
                 stopFlag=True
                 break
@@ -635,17 +651,17 @@ def readTime(hpobj,i=0):
         except:
             pass
             #return ""
-    #print price_on_40
-    #print price_on_49
-    logstr+= "best price is:%s\n" %((1000-(price_on_49-price_on_40))>=800 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+800)  
-    print "best price is:%s" %((1000-(price_on_49-price_on_40))>=800 and price_on_49+(1000-(price_on_49-price_on_40)) or price_on_49+800)
+    #print price_on_1
+    #print price_on_2
+    logstr+= "best price is:%s\n" %((1000-(price_on_2-price_on_1))>=800 and price_on_2+(1000-(price_on_2-price_on_1)) or price_on_2+800)  
+    print "best price is:%s" %((1000-(price_on_2-price_on_1))>=800 and price_on_2+(1000-(price_on_2-price_on_1)) or price_on_2+800)
     #print hpobj.timeList
 
 def readPrice(hpobj):
     global stopFlag
     global latestPrice
-    global price_on_40
-    global price_on_49
+    global price_on_1
+    global price_on_2
     #for i in xrange(100):
     while True:
         if True:
